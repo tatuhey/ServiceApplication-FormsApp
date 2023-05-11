@@ -240,7 +240,7 @@ namespace ServiceApplication_FormsApp
                         
             catch (Exception ex)
             {
-                MessageBox.Show($"Error when adding data to the queue.\n {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error when adding data to the queue.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 }
 
@@ -252,7 +252,7 @@ namespace ServiceApplication_FormsApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error when deleting selected entry from the finished listbox. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error when deleting selected entry from the finished listbox.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
         }
@@ -265,7 +265,7 @@ namespace ServiceApplication_FormsApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error when completing selected entry from the regular listview. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error when completing selected entry from the regular listview.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btnExpress_Click(object sender, EventArgs e)
@@ -277,7 +277,7 @@ namespace ServiceApplication_FormsApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error when completing selected entry from the regular listview. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error when completing selected entry from the regular listview.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void lbFinished_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -288,7 +288,7 @@ namespace ServiceApplication_FormsApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error when deleting selected entry from the finished listbox. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error when deleting selected entry from the finished listbox.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
         }
@@ -300,7 +300,7 @@ namespace ServiceApplication_FormsApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error when selecting data from the listview. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error when selecting data from the listview.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void lvExpress_MouseClick(object sender, MouseEventArgs e)
@@ -311,7 +311,7 @@ namespace ServiceApplication_FormsApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error when selecting data from the listview. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error when selecting data from the listview.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
