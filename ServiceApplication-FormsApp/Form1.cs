@@ -110,10 +110,7 @@ namespace ServiceApplication_FormsApp
         }
 
         //6.10	Create a custom keypress method to ensure the Service Cost textbox can only accept a double value with one decimal point.
-        private void tbCost_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            ValidCostKeyPress(sender, e);
-        }
+
 
         private void ValidCostKeyPress(object sender, KeyPressEventArgs e)
         {
@@ -126,21 +123,10 @@ namespace ServiceApplication_FormsApp
                 e.Handled = true;
             }
 
-            // The code below is still funky
-
+            PressEnterToEnter(sender, e);
             //try
             //{
-            //    if (FilledTextboxes())
-            //    {
-            //        if (e.KeyChar == (char)Keys.Enter)
-            //        {
-            //            AddNewItem();
-            //            ClearTextboxes();
-            //        }
-
-            //    }
-            //    else
-            //        MessageBox.Show("Please fill in all the necessary details.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    PressEnterToEnter(sender, e);
             //}
 
             //catch (Exception ex)
@@ -148,6 +134,8 @@ namespace ServiceApplication_FormsApp
             //    MessageBox.Show($"Error when adding data to the queue.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             //}
         }
+
+
 
         //6.11	Create a custom method to increment the service tag control,
         //this method must be called inside the “AddNewItem” method before the new service item is added to a queue.
@@ -264,9 +252,21 @@ namespace ServiceApplication_FormsApp
                 && (rbExpress.Checked || rbRegular.Checked)
                 && !string.IsNullOrWhiteSpace(tbCost.Text);
         }
+        private void PressEnterToEnter(object sender, KeyPressEventArgs e)
+        {
+            if (FilledTextboxes())
+            {
+                if (e.KeyChar == (char)Keys.Enter)
+                {
+                    AddNewItem();
+                    ClearTextboxes();
+                }
+            }
+        }
+
         #endregion
 
-        #region Clicks
+        #region Clicks and KeyPresses
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -360,6 +360,17 @@ namespace ServiceApplication_FormsApp
         private void numTag_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = true;
+        }
+        private void tbCost_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                ValidCostKeyPress(sender, e);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error when adding data to the queue.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         #endregion
