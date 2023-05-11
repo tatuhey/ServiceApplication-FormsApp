@@ -67,6 +67,7 @@
             // 
             // tbName
             // 
+            this.tbName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbName.Location = new System.Drawing.Point(55, 62);
             this.tbName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbName.Name = "tbName";
@@ -75,6 +76,7 @@
             // 
             // tbModel
             // 
+            this.tbModel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbModel.Location = new System.Drawing.Point(55, 103);
             this.tbModel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbModel.Name = "tbModel";
@@ -83,6 +85,7 @@
             // 
             // tbProblem
             // 
+            this.tbProblem.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbProblem.Location = new System.Drawing.Point(55, 144);
             this.tbProblem.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbProblem.Multiline = true;
@@ -92,6 +95,7 @@
             // 
             // tbCost
             // 
+            this.tbCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbCost.Location = new System.Drawing.Point(55, 413);
             this.tbCost.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tbCost.Name = "tbCost";
@@ -105,8 +109,9 @@
             this.colHeadName,
             this.colHeadModel,
             this.colHeadProblem,
-            this.colHeadTag,
-            this.colHeadCost});
+            this.colHeadCost,
+            this.colHeadTag});
+            this.lvRegular.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvRegular.HideSelection = false;
             this.lvRegular.Location = new System.Drawing.Point(317, 62);
             this.lvRegular.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -140,6 +145,7 @@
             // colHeadCost
             // 
             this.colHeadCost.Text = "Service Cost";
+            this.colHeadCost.Width = 90;
             // 
             // lvExpress
             // 
@@ -147,8 +153,9 @@
             this.colHeadName1,
             this.colHeadModel1,
             this.colHeadProblem1,
-            this.colHeadTag1,
-            this.colHeadCost1});
+            this.colHeadCost1,
+            this.colHeadTag1});
+            this.lvExpress.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvExpress.HideSelection = false;
             this.lvExpress.Location = new System.Drawing.Point(317, 272);
             this.lvExpress.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -187,12 +194,14 @@
             // lbFinished
             // 
             this.lbFinished.ColumnWidth = 1;
+            this.lbFinished.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbFinished.FormattingEnabled = true;
             this.lbFinished.Location = new System.Drawing.Point(751, 62);
             this.lbFinished.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.lbFinished.Name = "lbFinished";
             this.lbFinished.Size = new System.Drawing.Size(146, 329);
             this.lbFinished.TabIndex = 6;
+            this.lbFinished.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbFinished_MouseDoubleClick);
             // 
             // label1
             // 
@@ -229,6 +238,7 @@
             // 
             // numTag
             // 
+            this.numTag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numTag.Location = new System.Drawing.Point(55, 346);
             this.numTag.Name = "numTag";
             this.numTag.Size = new System.Drawing.Size(52, 20);
@@ -340,6 +350,7 @@
             this.btnPay.TabIndex = 19;
             this.btnPay.Text = "Pay";
             this.btnPay.UseVisualStyleBackColor = true;
+            this.btnPay.Click += new System.EventHandler(this.btnPay_Click);
             // 
             // btnRegular
             // 

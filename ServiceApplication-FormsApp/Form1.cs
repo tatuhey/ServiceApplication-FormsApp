@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Xceed.Wpf.Toolkit.Core.Input;
 
 namespace ServiceApplication_FormsApp
 {
@@ -40,45 +41,37 @@ namespace ServiceApplication_FormsApp
         //The new service item will be added to the appropriate Queue based on the Priority radio button.
         private void AddNewItem()
         {
-            try
+            string name = tbName.Text;
+            string model = tbModel.Text;
+            string problem = tbProblem.Text;
+            double cost = double.Parse(tbCost.Text);
+            int tag = int.Parse(numTag.Text);
+            int priority = GetServicePriority();
+
+            if (priority == 0)
             {
-                string name = tbName.Text;
-                string model = tbModel.Text;
-                string problem = tbProblem.Text;
-                double cost = double.Parse(tbCost.Text);
-                int tag = int.Parse(numTag.Text);
-                int priority = GetServicePriority();
+                Drone newRegular = new Drone();
+                newRegular.setName(name);
+                newRegular.setModel(model);
+                newRegular.setProblem(problem);
+                newRegular.setCost(cost);
+                newRegular.setTag(tag);
+                RegularService.Enqueue(newRegular);
 
-                if (priority == 0)
-                {
-                    Drone newRegular = new Drone();
-                    newRegular.setName(name);
-                    newRegular.setModel(model);
-                    newRegular.setProblem(problem);
-                    newRegular.setCost(cost);
-                    newRegular.setTag(tag);
-                    RegularService.Enqueue(newRegular);
-
-                    DisplayRegular();
-                }
-
-                if (priority == 1)
-                {
-                    Drone newExpress = new Drone();
-                    newExpress.setName(name);
-                    newExpress.setModel(model);
-                    newExpress.setProblem(problem);
-                    newExpress.setCost(ExpressCost(cost));
-                    newExpress.setTag(tag);
-                    ExpressService.Enqueue(newExpress);
-
-                    DisplayExpress();
-                }
-                ClearTextboxes();
+                DisplayRegular();
             }
-            catch (Exception ex)
+
+            if (priority == 1)
             {
-                MessageBox.Show($"Error when adding data to the queue.\n {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Drone newExpress = new Drone();
+                newExpress.setName(name);
+                newExpress.setModel(model);
+                newExpress.setProblem(problem);
+                newExpress.setCost(ExpressCost(cost));
+                newExpress.setTag(tag);
+                ExpressService.Enqueue(newExpress);
+
+                DisplayExpress();
             }
         }
 
@@ -121,7 +114,6 @@ namespace ServiceApplication_FormsApp
             {
                 lvExpress.Items.Add(new ListViewItem(new string[] { item.getName(), item.getModel(), item.getProblem(), item.getCost().ToString(), item.getTag().ToString() }));
             }
-
         }
 
         //6.10	Create a custom keypress method to ensure the Service Cost textbox can only accept a double value with one decimal point.
@@ -146,132 +138,77 @@ namespace ServiceApplication_FormsApp
             return newTag;
         }
 
-        #endregion
-
         //6.12	Create a mouse click method for the regular service ListView that will display the Client Name and Service Problem in the related textboxes.
-        private void lvRegular_MouseClick(object sender, MouseEventArgs e)
+        private void RegularToTextboxes()
         {
-            try
-            {
-                int index = lvRegular.SelectedIndices[0];
-                Drone item = RegularService.ElementAt(index);
-                tbName.Text = item.getName();
-                tbModel.Text = item.getModel();
-                tbProblem.Text = item.getProblem();
-                numTag.Text = item.getTag().ToString();
-                rbRegular.Checked = true;
-                tbCost.Text = item.getCost().ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error when selecting data from the listview. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            int index = lvRegular.SelectedIndices[0];
+            Drone item = RegularService.ElementAt(index);
+            tbName.Text = item.getName();
+            tbModel.Text = item.getModel();
+            tbProblem.Text = item.getProblem();
+            numTag.Text = item.getTag().ToString();
+            rbRegular.Checked = true;
+            tbCost.Text = item.getCost().ToString();
         }
 
         //6.13	Create a mouse click method for the express service ListView that will display the Client Name and Service Problem in the related textboxes.
-        private void lvExpress_MouseClick(object sender, MouseEventArgs e)
+        private void ExpressToTextboxes()
         {
-            try
-            {
-                int index = lvExpress.SelectedIndices[0];
-                Drone item = ExpressService.ElementAt(index);
-                tbName.Text = item.getName();
-                tbModel.Text = item.getModel();
-                tbProblem.Text = item.getProblem();
-                numTag.Text = item.getTag().ToString();
-                rbRegular.Checked = true;
-                tbCost.Text = item.getCost().ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error when selecting data from the listview. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            int index = lvExpress.SelectedIndices[0];
+            Drone item = ExpressService.ElementAt(index);
+            tbName.Text = item.getName();
+            tbModel.Text = item.getModel();
+            tbProblem.Text = item.getProblem();
+            numTag.Text = item.getTag().ToString();
+            rbRegular.Checked = true;
+            tbCost.Text = item.getCost().ToString();
         }
 
         //6.14	Create a button click method that will remove a service item from the regular ListView and dequeue the regular service Queue<T> data structure.
         //The dequeued item must be added to the List<T> and displayed in the ListBox for finished service items.
-        private void btnRegular_Click(object sender, EventArgs e)
+        private void RegularToFinished()
         {
-            try
-            {
-                Drone queue = RegularService.ElementAt(0);
-                string name = queue.getName();
-                double cost = queue.getCost();
+            Drone queue = RegularService.ElementAt(0);
+            string name = queue.getName();
+            double cost = queue.getCost();
 
-                RegularService.Dequeue();
-                lvRegular.Items.RemoveAt(0);
+            RegularService.Dequeue();
+            lvRegular.Items.RemoveAt(0);
 
-                Drone item = new Drone();
-                item.setName(name);
-                item.setCost(cost);
-                FinishedList.Add(item);
-
-                lbFinished.DataSource = FinishedList;
-                lbFinished.DisplayMember = $"{name} - ${cost}";
-                lbFinished.ValueMember = null;
-                lbFinished.Refresh();
-
-                //lbFinished.Items.Clear();
-                //foreach (var finished in FinishedList)
-                //{
-                //    lbFinished.Items.Add(new ListViewItem(new[] { finished.getName(), finished.getCost().ToString() }));
-                //}
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error when completing selected entry from the regular listview. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            Drone item = new Drone();
+            item.setName(name);
+            item.setCost(cost);
+            FinishedList.Add(item);
         }
-
 
         //6.15	Create a button click method that will remove a service item from the express ListView and dequeue the express service Queue<T> data structure.
         //The dequeued item must be added to the List<T> and displayed in the ListBox for finished service items.
-        private void btnExpress_Click(object sender, EventArgs e)
+        private void ExpressToFinished()
         {
-            try
+            Drone queue = ExpressService.ElementAt(0);
+            string name = queue.getName();
+            double cost = queue.getCost();
+
+            ExpressService.Dequeue();
+            lvExpress.Items.RemoveAt(0);
+
+            Drone item = new Drone();
+            item.setName(name);
+            item.setCost(cost);
+            FinishedList.Add(item);
+        }
+        //6.16	Create a double mouse click method that will delete a service item from the finished listbox and remove the same item from the List<T>.
+        private void FinishedItemPay()
+        {
+            int index = lbFinished.SelectedIndex;
+            if (index >= -1)
             {
-                Drone queue = ExpressService.ElementAt(0);
-                string name = queue.getName();
-                double cost = queue.getCost();
+                FinishedList.RemoveAt(index);
 
-                ExpressService.Dequeue();
-                lvExpress.Items.RemoveAt(0);
-
-                Drone item = new Drone();
-                item.setName(name);
-                item.setCost(cost);
-                FinishedList.Add(item);
-
-                lbFinished.DataSource = FinishedList;
-                lbFinished.DisplayMember = name;
-                lbFinished.DisplayMember = cost.ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error when completing selected entry from the regular listview. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UpdateListBox();
             }
         }
 
-
-        ////6.16	Create a double mouse click method that will delete a service item from the finished listbox and remove the same item from the List<T>.
-        //private void lbFinished_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (lbFinished.SelectedItem != null)
-        //        {
-        //            Drone selectedItem = (Drone)lbFinished.SelectedItem;
-        //            FinishedList.Remove(selectedItem);
-        //            lbFinished.Items.Remove(selectedItem);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Error when deleting selected entry from the finished listbox. {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
-        //    }
-        //}
         //6.17	Create a custom method that will clear all the textboxes after each service item has been added.
         private void ClearTextboxes()
         {
@@ -283,12 +220,101 @@ namespace ServiceApplication_FormsApp
 
         }
 
-        #region Buttons
+        private void UpdateListBox()
+        {
+            lbFinished.Items.Clear();
+            foreach (var finlist in FinishedList)
+            {
+                lbFinished.Items.Add(finlist.getName() + " - " + "$" + finlist.getCost());
+            }
+        }
+        #endregion
+
+        #region Clicks
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddNewItem();
-        }
+            try
+            {
+                AddNewItem();
+                ClearTextboxes();
+            }
+                        
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error when adding data to the queue.\n {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+}
 
+        private void btnPay_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FinishedItemPay();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error when deleting selected entry from the finished listbox. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
+        private void btnRegular_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                RegularToFinished();
+                UpdateListBox();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error when completing selected entry from the regular listview. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btnExpress_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ExpressToFinished();
+                UpdateListBox();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error when completing selected entry from the regular listview. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void lbFinished_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                FinishedItemPay();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error when deleting selected entry from the finished listbox. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
+        private void lvRegular_MouseClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                RegularToTextboxes();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error when selecting data from the listview. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void lvExpress_MouseClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                ExpressToTextboxes();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error when selecting data from the listview. {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         #endregion
         //6.18	All code is required to be adequately commented. Map the programming criteria and features to your code/methods
