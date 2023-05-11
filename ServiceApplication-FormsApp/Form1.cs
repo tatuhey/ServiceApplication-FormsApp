@@ -112,6 +112,11 @@ namespace ServiceApplication_FormsApp
         //6.10	Create a custom keypress method to ensure the Service Cost textbox can only accept a double value with one decimal point.
         private void tbCost_KeyPress(object sender, KeyPressEventArgs e)
         {
+            ValidCostKeyPress(sender, e);
+        }
+
+        private void ValidCostKeyPress(object sender, KeyPressEventArgs e)
+        {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != (char)Keys.Back || (e.KeyChar == '.' && ((TextBox)sender).Text.Contains(".")))
             {
                 e.Handled = true;
@@ -120,6 +125,28 @@ namespace ServiceApplication_FormsApp
             {
                 e.Handled = true;
             }
+
+            // The code below is still funky
+
+            //try
+            //{
+            //    if (FilledTextboxes())
+            //    {
+            //        if (e.KeyChar == (char)Keys.Enter)
+            //        {
+            //            AddNewItem();
+            //            ClearTextboxes();
+            //        }
+
+            //    }
+            //    else
+            //        MessageBox.Show("Please fill in all the necessary details.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //}
+
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Error when adding data to the queue.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         //6.11	Create a custom method to increment the service tag control,
@@ -159,43 +186,54 @@ namespace ServiceApplication_FormsApp
         //The dequeued item must be added to the List<T> and displayed in the ListBox for finished service items.
         private void RegularToFinished()
         {
-            Drone queue = RegularService.ElementAt(0);
-            string name = queue.getName();
-            double cost = queue.getCost();
+            if (RegularService.Count > 0)
+            {
+                Drone queue = RegularService.ElementAt(0);
+                string name = queue.getName();
+                double cost = queue.getCost();
 
-            RegularService.Dequeue();
-            lvRegular.Items.RemoveAt(0);
+                RegularService.Dequeue();
+                lvRegular.Items.RemoveAt(0);
 
-            Drone item = new Drone();
-            item.setName(name);
-            item.setCost(cost);
-            FinishedList.Add(item);
+                Drone item = new Drone();
+                item.setName(name);
+                item.setCost(cost);
+                FinishedList.Add(item);
+            }
+
         }
 
         //6.15	Create a button click method that will remove a service item from the express ListView and dequeue the express service Queue<T> data structure.
         //The dequeued item must be added to the List<T> and displayed in the ListBox for finished service items.
         private void ExpressToFinished()
         {
-            Drone queue = ExpressService.ElementAt(0);
-            string name = queue.getName();
-            double cost = queue.getCost();
+            if (ExpressService.Count > 0)
+            {
+                Drone queue = ExpressService.ElementAt(0);
+                string name = queue.getName();
+                double cost = queue.getCost();
 
-            ExpressService.Dequeue();
-            lvExpress.Items.RemoveAt(0);
+                ExpressService.Dequeue();
+                lvExpress.Items.RemoveAt(0);
 
-            Drone item = new Drone();
-            item.setName(name);
-            item.setCost(cost);
-            FinishedList.Add(item);
+                Drone item = new Drone();
+                item.setName(name);
+                item.setCost(cost);
+                FinishedList.Add(item);
+            }
+
         }
         //6.16	Create a double mouse click method that will delete a service item from the finished listbox and remove the same item from the List<T>.
         private void FinishedItemPay()
         {
-            int index = lbFinished.SelectedIndex;
-            if (index >= -1)
+            if (lbFinished.Items.Count > 0)
             {
-                FinishedList.RemoveAt(index);
-                UpdateListBox();
+                int index = lbFinished.SelectedIndex;
+                if (index >= -1)
+                {
+                    FinishedList.RemoveAt(index);
+                    UpdateListBox();
+                }
             }
         }
 
@@ -217,6 +255,15 @@ namespace ServiceApplication_FormsApp
                 lbFinished.Items.Add(finlist.getName() + " - " + "$" + finlist.getCost());
             }
         }
+
+        private bool FilledTextboxes()
+        {
+            return !string.IsNullOrWhiteSpace(tbName.Text)
+                && !string.IsNullOrWhiteSpace(tbModel.Text)
+                && !string.IsNullOrWhiteSpace(tbProblem.Text)
+                && (rbExpress.Checked || rbRegular.Checked)
+                && !string.IsNullOrWhiteSpace(tbCost.Text);
+        }
         #endregion
 
         #region Clicks
@@ -224,15 +271,20 @@ namespace ServiceApplication_FormsApp
         {
             try
             {
-                AddNewItem();
-                ClearTextboxes();
+                if (FilledTextboxes())
+                {
+                    AddNewItem();
+                    ClearTextboxes();
+                }
+                else
+                    MessageBox.Show("Please fill in all the necessary details.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
                         
             catch (Exception ex)
             {
                 MessageBox.Show($"Error when adding data to the queue.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-}
+        }
 
         private void btnPay_Click(object sender, EventArgs e)
         {
