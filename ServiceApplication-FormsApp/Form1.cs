@@ -110,8 +110,6 @@ namespace ServiceApplication_FormsApp
         }
 
         //6.10	Create a custom keypress method to ensure the Service Cost textbox can only accept a double value with one decimal point.
-
-
         private void ValidCostKeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != (char)Keys.Back || (e.KeyChar == '.' && ((TextBox)sender).Text.Contains(".")))
@@ -122,20 +120,7 @@ namespace ServiceApplication_FormsApp
             {
                 e.Handled = true;
             }
-
-            PressEnterToEnter(sender, e);
-            //try
-            //{
-            //    PressEnterToEnter(sender, e);
-            //}
-
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show($"Error when adding data to the queue.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
         }
-
-
 
         //6.11	Create a custom method to increment the service tag control,
         //this method must be called inside the “AddNewItem” method before the new service item is added to a queue.
@@ -235,6 +220,7 @@ namespace ServiceApplication_FormsApp
             tbCost.Text = string.Empty;
         }
 
+        // Method to update the listbox when an entry is removed from either Queue<T> by adding them to List<T>. The output is formatted to add dash(-) and dollar sign.
         private void UpdateListBox()
         {
             lbFinished.Items.Clear();
@@ -244,6 +230,7 @@ namespace ServiceApplication_FormsApp
             }
         }
 
+        // Method to return True value if all texboxes and either radio buttons are checked, to allow data to be entered to either Queue<T>.
         private bool FilledTextboxes()
         {
             return !string.IsNullOrWhiteSpace(tbName.Text)
@@ -252,6 +239,8 @@ namespace ServiceApplication_FormsApp
                 && (rbExpress.Checked || rbRegular.Checked)
                 && !string.IsNullOrWhiteSpace(tbCost.Text);
         }
+
+        // Method to allow pressing the key Enter to enter data to either Queue<T>.
         private void PressEnterToEnter(object sender, KeyPressEventArgs e)
         {
             if (FilledTextboxes())
@@ -361,11 +350,13 @@ namespace ServiceApplication_FormsApp
         {
             e.Handled = true;
         }
+
         private void tbCost_KeyPress(object sender, KeyPressEventArgs e)
         {
             try
             {
                 ValidCostKeyPress(sender, e);
+                PressEnterToEnter(sender, e);
             }
             catch (Exception ex)
             {
