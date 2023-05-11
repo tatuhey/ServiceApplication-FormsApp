@@ -16,7 +16,6 @@ namespace ServiceApplication_FormsApp
         public ServiceApplicationForm()
         {
             InitializeComponent();
-            InitialiseNumTag();
         }
         //6.2	Create a global List<T> of type Drone called “FinishedList”. 
         List<Drone> FinishedList = new List<Drone>();
@@ -27,20 +26,13 @@ namespace ServiceApplication_FormsApp
         //6.4	Create a global Queue<T> of type Drone called “ExpressService”.
         Queue<Drone> ExpressService = new Queue<Drone>();
 
-        private void InitialiseNumTag()
-        {
-            numTag.Maximum = 900;
-            numTag.Minimum = 100;
-            numTag.Value = numTag.Minimum;
-            numTag.Increment = 10;
-        }
-
         #region methods
         //6.5	Create a button method called “AddNewItem” that will add a new service item to a Queue<> based on the priority.
         //Use TextBoxes for the Client Name, Drone Model, Service Problem and Service Cost. Use a numeric up/down control for the Service Tag.
         //The new service item will be added to the appropriate Queue based on the Priority radio button.
         private void AddNewItem()
         {
+            IncrementTag();
             string name = tbName.Text;
             string model = tbModel.Text;
             string problem = tbProblem.Text;
@@ -102,7 +94,7 @@ namespace ServiceApplication_FormsApp
             lvRegular.Items.Clear();
             foreach (var item in RegularService)
             {
-                lvRegular.Items.Add(new ListViewItem(new string[] { item.getName(), item.getModel(), item.getProblem(), item.getCost().ToString(), item.getTag().ToString() }));
+                lvRegular.Items.Add(new ListViewItem(new string[] { item.getName(), item.getModel(), item.getProblem(), "$"+item.getCost().ToString(), item.getTag().ToString() }));
             }
         }
 
@@ -113,30 +105,28 @@ namespace ServiceApplication_FormsApp
             lvExpress.Items.Clear();
             foreach (var item in ExpressService)
             {
-                lvExpress.Items.Add(new ListViewItem(new string[] { item.getName(), item.getModel(), item.getProblem(), item.getCost().ToString(), item.getTag().ToString() }));
+                lvExpress.Items.Add(new ListViewItem(new string[] { item.getName(), item.getModel(), item.getProblem(), "$"+item.getCost().ToString(), item.getTag().ToString() }));
             }
         }
 
         //6.10	Create a custom keypress method to ensure the Service Cost textbox can only accept a double value with one decimal point.
         private void tbCost_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' || (e.KeyChar == '.' && ((TextBox)sender).Text.Contains(".")))
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != (char)Keys.Back || (e.KeyChar == '.' && ((TextBox)sender).Text.Contains(".")))
+            {
+                e.Handled = true;
+            }
+            else if (((TextBox)sender).Text.Contains(".") && ((TextBox)sender).Text.Split('.')[1].Length >= 2 && e.KeyChar != (char)Keys.Back)
             {
                 e.Handled = true;
             }
         }
+
         //6.11	Create a custom method to increment the service tag control,
         //this method must be called inside the “AddNewItem” method before the new service item is added to a queue.
-        private int IncrementTag(int value)
+        private void IncrementTag()
         {
-            int currentTag = int.Parse(numTag.Text);
-            int newTag = currentTag + 10;
-            if (newTag > 900)
-            {
-                newTag = 100;
-            }
-            numTag.Text = newTag.ToString();
-            return newTag;
+            numTag.Increment = 10;
         }
 
         //6.12	Create a mouse click method for the regular service ListView that will display the Client Name and Service Problem in the related textboxes.
@@ -313,6 +303,11 @@ namespace ServiceApplication_FormsApp
             {
                 MessageBox.Show($"Error when selecting data from the listview.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void numTag_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
         }
 
         #endregion

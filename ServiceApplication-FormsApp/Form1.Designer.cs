@@ -36,14 +36,14 @@
             this.colHeadName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colHeadModel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colHeadProblem = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colHeadTag = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colHeadCost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colHeadTag = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lvExpress = new System.Windows.Forms.ListView();
             this.colHeadName1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colHeadModel1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colHeadProblem1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colHeadTag1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colHeadCost1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colHeadTag1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lbFinished = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -137,15 +137,15 @@
             this.colHeadProblem.Text = "Service Problem";
             this.colHeadProblem.Width = 108;
             // 
-            // colHeadTag
-            // 
-            this.colHeadTag.Text = "Service Tag";
-            this.colHeadTag.Width = 98;
-            // 
             // colHeadCost
             // 
             this.colHeadCost.Text = "Service Cost";
             this.colHeadCost.Width = 90;
+            // 
+            // colHeadTag
+            // 
+            this.colHeadTag.Text = "Service Tag";
+            this.colHeadTag.Width = 98;
             // 
             // lvExpress
             // 
@@ -181,15 +181,15 @@
             this.colHeadProblem1.Text = "Service Problem";
             this.colHeadProblem1.Width = 112;
             // 
-            // colHeadTag1
-            // 
-            this.colHeadTag1.Text = "Service Tag";
-            this.colHeadTag1.Width = 81;
-            // 
             // colHeadCost1
             // 
             this.colHeadCost1.Text = "Service Cost";
             this.colHeadCost1.Width = 87;
+            // 
+            // colHeadTag1
+            // 
+            this.colHeadTag1.Text = "Service Tag";
+            this.colHeadTag1.Width = 81;
             // 
             // lbFinished
             // 
@@ -239,10 +239,31 @@
             // numTag
             // 
             this.numTag.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numTag.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.numTag.Location = new System.Drawing.Point(55, 346);
+            this.numTag.Maximum = new decimal(new int[] {
+            900,
+            0,
+            0,
+            0});
+            this.numTag.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             this.numTag.Name = "numTag";
             this.numTag.Size = new System.Drawing.Size(52, 20);
             this.numTag.TabIndex = 10;
+            this.numTag.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numTag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numTag_KeyPress);
             // 
             // label4
             // 
