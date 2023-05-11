@@ -81,6 +81,7 @@ namespace ServiceApplication_FormsApp
             double expCost = cost * 115 / 100;
             return expCost;
         }
+
         //6.7	Create a custom method called “GetServicePriority” which returns the value of the priority radio group.
         //This method must be called inside the “AddNewItem” method before the new service item is added to a queue.
         private int GetServicePriority()
@@ -204,7 +205,6 @@ namespace ServiceApplication_FormsApp
             if (index >= -1)
             {
                 FinishedList.RemoveAt(index);
-
                 UpdateListBox();
             }
         }
@@ -217,7 +217,6 @@ namespace ServiceApplication_FormsApp
             tbProblem.Text = string.Empty;
             numTag.Value = 100;
             tbCost.Text = string.Empty;
-
         }
 
         private void UpdateListBox()
