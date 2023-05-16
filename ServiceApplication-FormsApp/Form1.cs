@@ -293,6 +293,7 @@ namespace ServiceApplication_FormsApp
             {
                 RegularToFinished();
                 UpdateListBox();
+                ClearTextboxes();
             }
             catch (Exception ex)
             {
@@ -305,6 +306,7 @@ namespace ServiceApplication_FormsApp
             {
                 ExpressToFinished();
                 UpdateListBox();
+                ClearTextboxes();
             }
             catch (Exception ex)
             {
