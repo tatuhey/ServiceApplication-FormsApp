@@ -202,7 +202,7 @@ namespace ServiceApplication_FormsApp
             if (lbFinished.Items.Count > 0)
             {
                 int index = lbFinished.SelectedIndex;
-                if (index >= -1)
+                if (index > -1)
                 {
                     FinishedList.RemoveAt(index);
                     UpdateListBox();
@@ -348,6 +348,7 @@ namespace ServiceApplication_FormsApp
             }
         }
 
+        // Method to prevent any keypress for the tag value
         private void numTag_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = true;
