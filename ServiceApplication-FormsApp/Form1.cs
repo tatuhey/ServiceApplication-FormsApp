@@ -126,7 +126,10 @@ namespace ServiceApplication_FormsApp
         //this method must be called inside the “AddNewItem” method before the new service item is added to a queue.
         private void IncreaseTag(NumericUpDown numTag)
         {
-            numTag.Value += 10;
+            if (numTag.Value < numTag.Maximum)
+                numTag.Value += 10;
+            else
+                numTag.Value = numTag.Minimum;
         }
 
         //6.12	Create a mouse click method for the regular service ListView that will display the Client Name and Service Problem in the related textboxes.
