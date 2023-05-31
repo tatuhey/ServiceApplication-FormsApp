@@ -32,14 +32,13 @@ namespace ServiceApplication_FormsApp
         //The new service item will be added to the appropriate Queue based on the Priority radio button.
         private void AddNewItem()
         {
-            IncrementTag();
             string name = tbName.Text;
             string model = tbModel.Text;
             string problem = tbProblem.Text;
             double cost = double.Parse(tbCost.Text);
             int tag = int.Parse(numTag.Text);
             int priority = GetServicePriority();
-
+            IncreaseTag(numTag);
             if (priority == 0)
             {
                 Drone newRegular = new Drone();
@@ -65,6 +64,7 @@ namespace ServiceApplication_FormsApp
 
                 DisplayExpress();
             }
+            
         }
 
         //6.6	Before a new service item is added to the Express Queue the service cost must be increased by 15%.
@@ -124,9 +124,9 @@ namespace ServiceApplication_FormsApp
 
         //6.11	Create a custom method to increment the service tag control,
         //this method must be called inside the “AddNewItem” method before the new service item is added to a queue.
-        private void IncrementTag()
+        private void IncreaseTag(NumericUpDown numTag)
         {
-            numTag.Increment = 10;
+            numTag.Value += 10;
         }
 
         //6.12	Create a mouse click method for the regular service ListView that will display the Client Name and Service Problem in the related textboxes.
@@ -216,7 +216,6 @@ namespace ServiceApplication_FormsApp
             tbName.Text = string.Empty;
             tbModel.Text = string.Empty;
             tbProblem.Text = string.Empty;
-            numTag.Value = 100;
             tbCost.Text = string.Empty;
         }
 
